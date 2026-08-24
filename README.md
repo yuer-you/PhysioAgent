@@ -108,7 +108,7 @@ load_signal(signal)
 推荐 Python 3.10+。
 
 ```bash
-git clone https://github.com/yuer_you/PhysioAgent.git
+git clone https://github.com/yuer-you/PhysioAgent.git
 cd PhysioAgent
 python -m venv .venv
 ```

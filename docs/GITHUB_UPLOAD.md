@@ -119,6 +119,6 @@ git diff --cached --stat
 
 ```powershell
 git commit -m "feat: publish PhysioAgent SFT-DPO workflow agent"
-git remote add origin https://github.com/yuer_you/PhysioAgent.git
+git remote add origin https://github.com/yuer-you/PhysioAgent.git
 git push -u origin main
 ```
