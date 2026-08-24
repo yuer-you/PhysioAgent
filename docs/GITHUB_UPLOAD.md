@@ -89,7 +89,7 @@ Dockerfile.base
 
 ## 许可证
 
-公开前需要由仓库作者选择代码许可证并新增根目录 `LICENSE`。常见选择是 MIT 或 Apache-2.0；本清单不会替你做这个法律选择。代码许可证不覆盖 MIT-BIH 数据，数据仍遵循其 ODC Attribution 1.0。
+项目代码已采用根目录 `LICENSE` 中的 MIT License。代码许可证不覆盖 MIT-BIH 数据，数据仍遵循其 ODC Attribution 1.0。
 
 ## 提交前检查
 

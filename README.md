@@ -135,16 +135,28 @@ CPU MVP 不需要下载 Qwen，也不会使用 GPU。
 
 ## 准备本地 Qwen
 
-模型权重不随 GitHub 仓库发布。可以使用 ModelScope 下载：
+模型权重不随 GitHub 仓库发布。推荐从 Hugging Face 下载官方
+[`Qwen/Qwen2.5-3B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct)：
 
 ```bash
-pip install modelscope
+python -m pip install -U huggingface_hub
+hf download Qwen/Qwen2.5-3B-Instruct \
+  --local-dir models/Qwen2.5-3B-Instruct
+```
+
+该模型是公开模型，通常不需要登录。下载完成后，项目默认从
+`models/Qwen2.5-3B-Instruct` 读取权重。
+
+如果服务器访问 Hugging Face 不稳定，可以改用 ModelScope：
+
+```bash
+python -m pip install -U modelscope
 modelscope download \
   --model "Qwen/Qwen2.5-3B-Instruct" \
   --local_dir "models/Qwen2.5-3B-Instruct"
 ```
 
-也可以把已有本地模型路径写入环境变量：
+两种方式得到的目录均可直接使用。如果模型已经下载到其他位置，可以通过环境变量指定：
 
 ```bash
 export PHYSIOAGENT_MODEL_PATH=/absolute/path/to/Qwen2.5-3B-Instruct
@@ -299,4 +311,4 @@ DOI: 10.13026/C2F305
 
 ## License
 
-代码许可证尚未由仓库作者选择。公开发布前请在根目录添加 `LICENSE`（例如 MIT 或 Apache-2.0）。MIT-BIH 派生数据不受代码许可证覆盖，仍遵循 ODC Attribution 1.0。
+项目代码采用 [MIT License](LICENSE)。MIT-BIH 派生数据不受代码许可证覆盖，仍遵循 ODC Attribution 1.0。

@@ -17,7 +17,7 @@ def main() -> None:
     parser.add_argument(
         "--model-path",
         default=os.environ.get("PHYSIOAGENT_MODEL_PATH", DEFAULT_MODEL_PATH),
-        help="ModelScope 下载得到的本地模型目录。",
+        help="从 Hugging Face 或 ModelScope 下载得到的本地模型目录。",
     )
     parser.add_argument("--question", default="这段信号的平均心率是多少？")
     parser.add_argument("--file", default=str(Path(__file__).parents[1] / "data" / "sample_ecg.csv"))

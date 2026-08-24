@@ -57,7 +57,7 @@ SFT reference 在 final v4 已有 78.8%，偏好数据是合成且目标较窄�
 
 ### 遇到过什么工程问题？
 
-- 离线服务器的 ModelScope 模型下载与路径挂载；
+- Hugging Face 主下载、ModelScope 备用下载，以及离线服务器的模型路径挂载；
 - Docker 中 wfdb/pandas/pyarrow 兼容；
 - 长 system prompt 导致 DPO 默认 prompt 截断风险；
 - 默认 0.5–8 Hz 滤波与 ECG 检测器要求的 5–15 Hz 不兼容；
