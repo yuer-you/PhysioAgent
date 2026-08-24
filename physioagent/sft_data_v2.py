@@ -1,4 +1,7 @@
-"""生成 SFT v2：复用 v1 能力，并定向增强规范参数名与自然语言参数表达。"""
+"""生成 SFT v2：复用 v1 能力，并定向增强规范参数名与自然语言参数表达。
+
+Generate SFT v2 by retaining v1 capabilities while targeting canonical argument names and natural phrasing.
+"""
 
 from __future__ import annotations
 
@@ -24,7 +27,8 @@ SFT_SYSTEM_PROMPT_V2 = (
 
 BASE_SEED = 20260812
 V2_SEED = 20260813
-TARGETED_SIZES = {"train": 40, "validation": 10}  # 每个工具的新增样本数
+# 每个工具的新增样本数 / Number of new examples per tool.
+TARGETED_SIZES = {"train": 40, "validation": 10}
 
 
 def _compact_call(name: str, arguments: dict[str, Any]) -> str:
@@ -32,7 +36,10 @@ def _compact_call(name: str, arguments: dict[str, Any]) -> str:
 
 
 def _variation_suffix(split: str, language: str, index: int) -> str:
-    """为同一语义模板增加自然的上下文变化，避免机械重复。"""
+    """为同一语义模板增加自然的上下文变化，避免机械重复。
+
+    Add natural contextual variation to one semantic template to avoid mechanical repetition.
+    """
     suffixes = {
         "train": {
             "zh": ["。", "，不要执行其他操作。", "，保留原始数据。", "，完成后停止。"],
@@ -207,6 +214,7 @@ def _filter_case(split: str, index: int) -> tuple[str, dict[str, Any], str]:
         arguments.update(lowcut=low, highcut=high, order=order)
     elif pattern == 5:
         # 单边截止频率也是合法的显式参数，另一侧继续使用工具默认值。
+        # A one-sided cutoff is also explicit and valid; the other side keeps the tool default.
         if (index // 2) % 2:
             arguments["lowcut"] = low
         else:
@@ -302,13 +310,17 @@ def _targeted_rows(split: str) -> list[dict[str, Any]]:
 
 
 def generate_datasets_v2(seed: int = V2_SEED) -> dict[str, list[dict[str, Any]]]:
-    """生成 700/150/100；函数不读取冻结的 final_cases_v1。"""
+    """生成 700/150/100；函数不读取冻结的 final_cases_v1。
+
+    Generate 700/150/100 examples without reading the frozen final_cases_v1.
+    """
     base = generate_datasets(seed=BASE_SEED)
     result = {
         "train": [_reprompt_base_row(row, "train") for row in base["train"]] + _targeted_rows("train"),
         "validation": [_reprompt_base_row(row, "validation") for row in base["validation"]]
         + _targeted_rows("validation"),
         # v1 test 已经被检查过，因此在 v2 中明确称为开发测试，不冒充最终测试。
+        # Because the v1 test was already inspected, v2 labels it as development rather than final testing.
         "test": [_reprompt_base_row(row, "test") for row in base["test"]],
     }
     rng = random.Random(seed)

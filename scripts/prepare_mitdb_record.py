@@ -2,6 +2,11 @@
 
 默认下载记录 100 的前 30 秒、第 0 通道，同时保存专家心搏标注用于独立评测。
 首次运行需要服务器能够访问 PhysioNet；生成后其余步骤可离线完成。
+
+Download a short MIT-BIH ECG excerpt from PhysioNet and convert it to the CSV format used by this project.
+By default, the script downloads the first 30 seconds of channel 0 from record 100 and saves expert
+heartbeat annotations for independent evaluation. The first run requires PhysioNet access; later steps
+can run offline once the files have been generated.
 """
 
 from __future__ import annotations

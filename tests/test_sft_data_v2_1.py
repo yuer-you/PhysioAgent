@@ -55,6 +55,7 @@ def test_v2_1_does_not_copy_failed_development_questions_or_final_cases():
         "Apply a sixth-order band-pass filter.",
     }
     # 这三条仍只存在于继承的开发 test，不得出现在 train/validation。
+    # These three cases remain exclusive to the inherited development test and must not enter train/validation.
     train_validation_questions = {
         row["prompt"][1]["content"].strip().casefold()
         for split in ("train", "validation")

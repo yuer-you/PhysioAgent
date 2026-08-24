@@ -11,7 +11,10 @@ REAL_ECG_207 = Path(__file__).parents[1] / "data" / "real" / "mitdb" / "207_30s"
 
 
 class FakeGenerator:
-    """不加载模型，只返回预先设定的模型输出。"""
+    """不加载模型，只返回预先设定的模型输出。
+
+    Return a predefined model output without loading a model.
+    """
 
     def __init__(self, output: str) -> None:
         self.output = output

@@ -2,6 +2,10 @@
 
 训练中的 eval_loss 使用 teacher forcing；本模块让模型真正逐条生成完整 JSON，
 并按步骤数、加载策略、语言和任务类别统计严格计划匹配率。
+
+Run deterministic generation evaluation on the held-out Workflow SFT set without executing physiological
+signal tools. Unlike teacher-forced eval_loss, this module makes the model generate complete JSON for each
+case and reports strict plan-match rates by step count, loading strategy, language, and task category.
 """
 
 from __future__ import annotations

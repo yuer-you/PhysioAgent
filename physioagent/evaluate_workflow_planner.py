@@ -1,4 +1,7 @@
-"""评测原始 Qwen 的多步计划 JSON，并执行计划检查真实工具闭环。"""
+"""评测原始 Qwen 的多步计划 JSON，并执行计划检查真实工具闭环。
+
+Evaluate base-Qwen multi-step plan JSON and execute plans to test the real tool loop.
+"""
 
 from __future__ import annotations
 

@@ -1,4 +1,7 @@
-"""真实信号与人工心搏标注的对照评测辅助函数。"""
+"""真实信号与人工心搏标注的对照评测辅助函数。
+
+Helpers for comparing real-signal predictions with manual heartbeat annotations.
+"""
 
 from __future__ import annotations
 
@@ -14,6 +17,10 @@ def match_peak_indices(
 
     输入必须是采样点索引。排序后的双指针匹配确保一个检测峰不能同时命中两个
     参考心搏，这比简单判断“附近是否存在标注”更严格。
+
+    Match detected peaks one-to-one with reference heartbeats within a sample tolerance. Inputs are sample
+    indices. The sorted two-pointer match prevents one detected peak from matching two reference beats,
+    which is stricter than simply asking whether an annotation exists nearby.
     """
     if tolerance_samples < 0:
         raise ValueError("tolerance_samples must be non-negative.")
@@ -54,7 +61,10 @@ def match_peak_indices(
 
 
 def mean_heart_rate_from_annotations(reference_indices: Sequence[int], sampling_rate: float) -> float:
-    """用相邻人工心搏标注的平均间隔计算参考平均心率。"""
+    """用相邻人工心搏标注的平均间隔计算参考平均心率。
+
+    Compute reference mean heart rate from the mean interval between adjacent manual annotations.
+    """
     if sampling_rate <= 0:
         raise ValueError("sampling_rate must be positive.")
     indices = sorted(int(index) for index in reference_indices)

@@ -1,4 +1,7 @@
-"""PhysioAgent：用于学习工具调用 Agent 的最小实现。"""
+"""PhysioAgent：用于学习工具调用 Agent 的最小实现。
+
+A minimal PhysioAgent implementation for learning tool-calling agents.
+"""
 
 from .agent import QwenAgent, RuleBasedAgent
 from .lora_agent import LoRAAgent

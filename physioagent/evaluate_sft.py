@@ -1,4 +1,7 @@
-"""评测 LoRA SFT 模型的工具选择与参数生成，不执行信号处理工具。"""
+"""评测 LoRA SFT 模型的工具选择与参数生成，不执行信号处理工具。
+
+Evaluate LoRA SFT tool selection and argument generation without executing signal-processing tools.
+"""
 
 from __future__ import annotations
 
@@ -28,7 +31,10 @@ DEFAULT_FINAL_MANIFEST = "evaluation/final_cases_v1_manifest.json"
 
 
 def load_sft_test_cases(path: str | Path) -> list[dict[str, Any]]:
-    """把训练数据格式转换成通用评测格式，并再次核对标签。"""
+    """把训练数据格式转换成通用评测格式，并再次核对标签。
+
+    Convert training records to the common evaluation format and validate labels again.
+    """
     rows = load_cases(path)
     cases: list[dict[str, Any]] = []
     for row in rows:
@@ -60,7 +66,10 @@ def load_sft_test_cases(path: str | Path) -> list[dict[str, Any]]:
 def load_tool_calling_cases(
     path: str | Path, system_prompt: str = SFT_SYSTEM_PROMPT
 ) -> list[dict[str, Any]]:
-    """给通用文本评测问题配上指定版本的简洁 system prompt。"""
+    """给通用文本评测问题配上指定版本的简洁 system prompt。
+
+    Attach the requested compact system-prompt version to generic text-evaluation questions.
+    """
     cases = load_cases(path)
     normalized = []
     for case in cases:
@@ -77,7 +86,10 @@ def load_tool_calling_cases(
 
 
 def verify_frozen_final_test(cases_path: str | Path, manifest_path: str | Path) -> str:
-    """最终评测前核对文件哈希，避免考题在冻结后被无意修改。"""
+    """最终评测前核对文件哈希，避免考题在冻结后被无意修改。
+
+    Verify the file hash before final evaluation so frozen questions cannot change unnoticed.
+    """
     cases = Path(cases_path)
     manifest_file = Path(manifest_path)
     if not cases.is_file() or not manifest_file.is_file():

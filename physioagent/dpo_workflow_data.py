@@ -2,6 +2,10 @@
 
 chosen 和 rejected 都是合法工作流 JSON。偏好只针对语义差异，避免模型把
 “能解析”误当成“计划正确”。训练集与验证集使用不同问题模板和列名。
+
+Generate Workflow DPO v1 preference data without reading frozen test sets. Both chosen and rejected
+completions are valid workflow JSON; preferences target semantic differences so the model cannot confuse
+parseability with planning correctness. Training and validation use different question templates and columns.
 """
 
 from __future__ import annotations

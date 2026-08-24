@@ -1,4 +1,7 @@
-"""评测 LoRA 工具决策到真实 ECG 执行和 grounded answer 的完整闭环。"""
+"""评测 LoRA 工具决策到真实 ECG 执行和 grounded answer 的完整闭环。
+
+Evaluate the full loop from LoRA tool decisions to real ECG execution and grounded answers.
+"""
 
 from __future__ import annotations
 
@@ -49,6 +52,7 @@ def load_real_agent_cases(path: str | Path) -> list[dict[str, Any]]:
                 raise ValueError(f"Duplicate case id: {case['id']}")
             seen_ids.add(case["id"])
             # 用正式解析器再次验证人工标签，避免评测答案本身非法。
+            # Revalidate manual labels with the production parser so evaluation answers are themselves valid.
             parse_tool_call(
                 json.dumps(
                     {"name": case["expected_name"], "arguments": case["expected_arguments"]},
@@ -145,7 +149,10 @@ def validate_against_reference(
     response: AgentResponse,
     reference: dict[str, Any],
 ) -> dict[str, Any]:
-    """按工具类型检查结果；这不是临床正确性声明。"""
+    """按工具类型检查结果；这不是临床正确性声明。
+
+    Check results by tool type; this is not a claim of clinical correctness.
+    """
     if response.tool_name != case["expected_name"]:
         return {"passed": False, "reason": "wrong tool was executed"}
     result = response.tool_result
@@ -201,7 +208,10 @@ def answer_is_grounded(response: AgentResponse) -> bool:
 
 
 def summarize_tool_result(result: object) -> object:
-    """避免把每条 10800 点数组完整写入评测文件。"""
+    """避免把每条 10800 点数组完整写入评测文件。
+
+    Avoid writing each full 10,800-sample array into the evaluation artifact.
+    """
     if isinstance(result, np.ndarray):
         return {
             "type": "ndarray",

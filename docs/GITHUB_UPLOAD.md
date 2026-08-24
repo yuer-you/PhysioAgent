@@ -10,6 +10,7 @@
 .gitignore
 Dockerfile
 README.md
+README_EN.md
 EXPERIMENT_REPORT.md
 requirements.txt
 requirements-train.txt

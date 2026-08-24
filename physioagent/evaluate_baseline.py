@@ -1,4 +1,7 @@
-"""评测未微调 Qwen 的工具选择和参数生成，不执行信号处理工具。"""
+"""评测未微调 Qwen 的工具选择和参数生成，不执行信号处理工具。
+
+Evaluate tool selection and argument generation by the base Qwen model without executing signal tools.
+"""
 
 from __future__ import annotations
 
@@ -22,7 +25,10 @@ def load_cases(path: str | Path) -> list[dict[str, Any]]:
 
 
 def score_call(case: dict[str, Any], call: ToolCall) -> dict[str, Any]:
-    """严格匹配之外，单独衡量请求参数和多余参数。"""
+    """严格匹配之外，单独衡量请求参数和多余参数。
+
+    Measure requested and extraneous arguments separately from exact matching.
+    """
     expected = case["expected_arguments"]
     predicted = call.arguments
     name_correct = call.name == case["expected_name"]

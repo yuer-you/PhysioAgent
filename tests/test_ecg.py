@@ -10,6 +10,7 @@ def make_synthetic_ecg(sampling_rate: int = 250) -> tuple[np.ndarray, list[int]]
     signal = 0.02 * np.sin(2 * np.pi * samples / (2 * sampling_rate))
     for location in qrs_locations:
         # 窄而高的 QRS，交替使用正/负极性；后面跟随较宽的 T 波。
+        # Use narrow, tall QRS complexes with alternating polarity, followed by wider T waves.
         polarity = 1 if location % 500 else -1
         signal += polarity * np.exp(-0.5 * ((samples - location) / 3.0) ** 2)
         signal += 0.30 * np.exp(-0.5 * ((samples - (location + 70)) / 14.0) ** 2)

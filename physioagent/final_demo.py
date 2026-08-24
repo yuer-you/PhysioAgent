@@ -1,4 +1,7 @@
-"""运行最终 Workflow DPO v1 Agent：模型规划，确定性工具执行，保存完整轨迹。"""
+"""运行最终 Workflow DPO v1 Agent：模型规划，确定性工具执行，保存完整轨迹。
+
+Run the final Workflow DPO v1 agent with model planning, deterministic tool execution, and full trace saving.
+"""
 
 from __future__ import annotations
 
@@ -49,6 +52,7 @@ def run_final_workflow(
     if sampling_rate <= 0:
         raise ValueError("Sampling rate must be positive.")
     # 最终实验固定 prompt v2，且不启用恢复层；原始模型计划始终保留。
+    # The final experiment fixes prompt v2 and disables recovery; the raw model plan is always preserved.
     return ModelWorkflowAgent(
         generator,
         prompt_version="v2",

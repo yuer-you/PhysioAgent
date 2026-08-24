@@ -4,6 +4,11 @@
 1. 训练集和验证集使用不同的加载表达模板；
 2. 同时覆盖显式列名、默认列和“不需要加载”的对照任务；
 3. 不读取开发集或冻结测试集，只记录它们为禁止复制的数据源。
+
+Generate Workflow SFT v2 data with emphasis on paraphrase generalization for load_signal.
+Design principles: use different loading-expression templates for training and validation; cover explicit
+columns, default columns, and control tasks that need no loading; and never read development or frozen test
+sets, recording them only as prohibited copy sources.
 """
 
 from __future__ import annotations
@@ -45,6 +50,7 @@ CATEGORY_COUNTS_V2 = {
 }
 
 # 列名也按 split 隔离，验证模型能否复制未在训练集中出现的合法列名。
+# Isolate column names by split to test copying of valid names unseen during training.
 COLUMNS_V2 = {
     "train": [
         "signal",
@@ -81,6 +87,7 @@ FILTER_BANDS_V2 = {
 }
 
 # 每个模板都有稳定 id，便于测试 train/validation 的表达族确实隔离。
+# Give every template a stable ID so tests can verify train/validation expression-family isolation.
 LOAD_TEMPLATES_V2 = {
     "train": {
         "zh": {
@@ -210,6 +217,7 @@ def _language(index: int) -> str:
 
 def _load_spec(split: str, language: str, index: int) -> tuple[dict[str, Any], str, str, str]:
     # 相邻的中英文样例共享 default/explicit 类型，避免语言与参数类型相关。
+    # Adjacent Chinese/English examples share default/explicit types to avoid language-argument correlation.
     load_kind = "default" if (index // 2) % 2 == 0 else "explicit"
     templates = LOAD_TEMPLATES_V2[split][language][load_kind]
     template_id, template = templates[(index // 4) % len(templates)]
@@ -232,6 +240,8 @@ def _filter_spec(
 ) -> tuple[dict[str, Any], str]:
     # 默认滤波器是 0.5-8 Hz，不能接需要完整 5-15 Hz 的冻结 ECG 峰检测器。
     # 因此默认参数只用于“滤波后统计”或单独滤波，不生成无效的峰值/心率链路。
+    # The 0.5-8 Hz default filter cannot precede the frozen ECG detector, which needs the full 5-15 Hz band.
+    # Therefore defaults are used only for post-filter statistics or standalone filtering, not invalid peak/HR chains.
     if allow_default and index % 7 == 0:
         arguments: dict[str, Any] = {}
         phrase = "采用默认带通设置" if language == "zh" else "apply the default band-pass settings"

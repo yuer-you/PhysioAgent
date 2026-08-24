@@ -1,4 +1,7 @@
-"""在真实 ECG 上演示确定性的多步工具执行和内存状态传递。"""
+"""在真实 ECG 上演示确定性的多步工具执行和内存状态传递。
+
+Demonstrate deterministic multi-step tool execution and in-memory state transfer on a real ECG.
+"""
 
 from __future__ import annotations
 

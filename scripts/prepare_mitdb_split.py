@@ -1,4 +1,7 @@
-"""按照预先固定的真实信号划分批量准备 MIT-BIH 片段。"""
+"""按照预先固定的真实信号划分批量准备 MIT-BIH 片段。
+
+Prepare MIT-BIH excerpts in batches according to the predefined real-signal split.
+"""
 
 from __future__ import annotations
 

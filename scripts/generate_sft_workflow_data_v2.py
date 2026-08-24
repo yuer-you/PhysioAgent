@@ -1,4 +1,7 @@
-"""从项目根目录运行：python scripts/generate_sft_workflow_data_v2.py"""
+"""从项目根目录运行：python scripts/generate_sft_workflow_data_v2.py
+
+Run from the project root: python scripts/generate_sft_workflow_data_v2.py
+"""
 
 import sys
 from pathlib import Path

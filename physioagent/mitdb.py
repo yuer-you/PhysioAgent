@@ -1,4 +1,7 @@
-"""MIT-BIH 小片段下载、转换和参考标注保存。"""
+"""MIT-BIH 小片段下载、转换和参考标注保存。
+
+Download and convert short MIT-BIH excerpts and save their reference annotations.
+"""
 
 from __future__ import annotations
 
@@ -25,7 +28,10 @@ def prepare_mitdb_record(
     *,
     wfdb_module: Any | None = None,
 ) -> dict[str, Any]:
-    """下载一个片段，写出 signal.csv 和 reference.json，并返回参考信息。"""
+    """下载一个片段，写出 signal.csv 和 reference.json，并返回参考信息。
+
+    Download one excerpt, write signal.csv and reference.json, and return reference metadata.
+    """
     if duration_seconds <= 0:
         raise ValueError("duration_seconds must be positive.")
     if channel < 0:

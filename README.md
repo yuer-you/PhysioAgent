@@ -1,5 +1,7 @@
 # PhysioAgent
 
+[English](README_EN.md) | 简体中文
+
 基于 Qwen2.5-3B、LoRA SFT 和 DPO 的生理时序多步工具调用 Agent。
 
 PhysioAgent 将中文或英文问题转换为严格的多步 JSON 计划，再由确定性 Python 工具处理真实 ECG。模型只负责规划，不直接生成医学数值；心率、R 峰和统计量均来自工具结果。
@@ -98,6 +100,7 @@ load_signal(signal)
 │   └── GITHUB_UPLOAD.md      # GitHub上传白名单与检查
 ├── Dockerfile
 ├── EXPERIMENT_REPORT.md
+├── README_EN.md
 └── README.md
 ```
 

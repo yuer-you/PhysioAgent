@@ -1,4 +1,7 @@
-"""一次性运行冻结最终测试：Prompt v4、LoRA v1、预选 LoRA v2。"""
+"""一次性运行冻结最终测试：Prompt v4、LoRA v1、预选 LoRA v2。
+
+Run the frozen final test once for Prompt v4, LoRA v1, and the preselected LoRA v2.
+"""
 
 from __future__ import annotations
 
@@ -35,7 +38,10 @@ REQUIRED_SCORE_FIELDS = {
 def validate_result_rows(
     rows: list[dict[str, Any]], final_cases: list[dict[str, Any]], label: str
 ) -> None:
-    """确认恢复使用的结果完整且确实对应同一份冻结测试。"""
+    """确认恢复使用的结果完整且确实对应同一份冻结测试。
+
+    Verify that recovery inputs are complete and correspond to the same frozen test set.
+    """
     expected = {case["id"]: case for case in final_cases}
     actual = {row["id"]: row for row in rows}
     if len(rows) != len(actual):

@@ -38,6 +38,7 @@ def test_real_agent_dry_run_executes_all_expected_calls():
     assert summary["metrics"]["end_to_end_success_rate"] == 1.0
     assert summary["failed_ids"] == []
     # 数组结果必须是摘要，避免评测文件意外膨胀。
+    # Array results must be summarized to prevent evaluation artifacts from growing unexpectedly.
     load_result = next(row for row in results if row["category"] == "load_signal")
     assert load_result["tool_result_summary"]["type"] == "ndarray"
     assert "first_five" in load_result["tool_result_summary"]

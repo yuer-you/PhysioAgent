@@ -1,6 +1,9 @@
 """使用 TRL + PEFT 对本地 Qwen2.5-3B-Instruct 进行 LoRA SFT。
 
 默认针对单张 16GB A4000。首次使用建议先运行 --dry-run，只检查数据，不加载模型。
+
+Run LoRA SFT on local Qwen2.5-3B-Instruct with TRL + PEFT. Defaults target one 16 GB A4000. On first use,
+run --dry-run to validate data without loading the model.
 """
 
 from __future__ import annotations
@@ -48,7 +51,10 @@ def load_jsonl(path: str | Path) -> list[dict[str, Any]]:
 
 
 def validate_sft_rows(rows: list[dict[str, Any]], split: str) -> set[str]:
-    """检查 TRL prompt-completion 结构和 assistant 工具调用标签。"""
+    """检查 TRL prompt-completion 结构和 assistant 工具调用标签。
+
+    Validate the TRL prompt-completion structure and assistant tool-call labels.
+    """
     if not rows:
         raise ValueError(f"{split} dataset is empty.")
     questions: set[str] = set()
@@ -102,7 +108,10 @@ def inspect_token_lengths(
     validation_file: str | Path,
     max_length: int,
 ) -> dict[str, float | int]:
-    """只加载 tokenizer 检查长度；不加载模型，也不需要 GPU。"""
+    """只加载 tokenizer 检查长度；不加载模型，也不需要 GPU。
+
+    Load only the tokenizer to inspect lengths; do not load the model or require a GPU.
+    """
     from transformers import AutoTokenizer
 
     model = Path(model_path)
@@ -188,6 +197,7 @@ def _ensure_safe_output(args: argparse.Namespace) -> Path:
 
 def train(args: argparse.Namespace) -> None:
     # 计算节点离线；这些变量阻止依赖库在本地模型缺文件时悄悄访问网络。
+    # Compute nodes are offline; these variables prevent silent network access when local files are missing.
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
     os.environ.setdefault("WANDB_DISABLED", "true")
@@ -222,6 +232,7 @@ def train(args: argparse.Namespace) -> None:
     model.enable_input_require_grads()
 
     # 只把 TRL 所需字段交给 Arrow，避免 metadata 中不同工具参数形成复杂嵌套 schema。
+    # Pass only TRL-required fields to Arrow to avoid complex nested schemas from heterogeneous metadata.
     raw_train = load_jsonl(args.train_file)
     raw_validation = load_jsonl(args.validation_file)
     dataset = DatasetDict(

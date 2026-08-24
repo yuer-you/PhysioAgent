@@ -2,6 +2,10 @@
 
 工具函数保持为普通、无状态的 Python 函数：这能让 Agent、命令行和单元测试
 使用同一份实现。真实项目中也应把模型的输出与实际信号处理代码分开。
+
+Signal-processing tools. Each tool remains an ordinary stateless Python function so the agent, CLI,
+and unit tests share one implementation. Production systems should likewise separate model output from
+the code that performs actual signal processing.
 """
 
 from __future__ import annotations
@@ -13,7 +17,10 @@ from scipy.signal import butter, find_peaks, sosfiltfilt
 
 
 def load_signal(file_path: str | Path, signal_column: str = "signal") -> np.ndarray:
-    """从含表头的 CSV 读取一个数值信号列。"""
+    """从含表头的 CSV 读取一个数值信号列。
+
+    Read one numeric signal column from a CSV file with a header.
+    """
     path = Path(file_path)
     if not path.exists():
         raise FileNotFoundError(f"Signal file does not exist: {path}")
@@ -28,7 +35,10 @@ def load_signal(file_path: str | Path, signal_column: str = "signal") -> np.ndar
 
 
 def calculate_statistics(signal: np.ndarray, sampling_rate: float) -> dict[str, float | int]:
-    """返回基础描述统计量；sampling_rate 单位为 Hz。"""
+    """返回基础描述统计量；sampling_rate 单位为 Hz。
+
+    Return basic descriptive statistics; sampling_rate is measured in Hz.
+    """
     values = _validate_signal(signal)
     _validate_sampling_rate(sampling_rate)
     return {
@@ -44,7 +54,10 @@ def calculate_statistics(signal: np.ndarray, sampling_rate: float) -> dict[str, 
 def detect_peaks(
     signal: np.ndarray, sampling_rate: float, min_distance_seconds: float = 0.3, prominence: float | None = None
 ) -> dict[str, object]:
-    """检测局部峰，返回峰的位置（采样点）和数量。"""
+    """检测局部峰，返回峰的位置（采样点）和数量。
+
+    Detect local peaks and return their sample indices and count.
+    """
     values = _validate_signal(signal)
     _validate_sampling_rate(sampling_rate)
     if min_distance_seconds <= 0:
@@ -58,7 +71,10 @@ def detect_peaks(
 def calculate_heart_rate(
     signal: np.ndarray, sampling_rate: float, min_distance_seconds: float = 0.3, prominence: float | None = None
 ) -> dict[str, object]:
-    """基于峰间期估计平均心率（BPM）。至少需要两个峰。"""
+    """基于峰间期估计平均心率（BPM）。至少需要两个峰。
+
+    Estimate mean heart rate in BPM from inter-peak intervals; at least two peaks are required.
+    """
     peak_result = detect_peaks(signal, sampling_rate, min_distance_seconds, prominence)
     peaks = np.asarray(peak_result["peak_indices"], dtype=int)
     if peaks.size < 2:
@@ -75,7 +91,10 @@ def calculate_heart_rate(
 def filter_signal(
     signal: np.ndarray, sampling_rate: float, lowcut: float = 0.5, highcut: float = 8.0, order: int = 4
 ) -> np.ndarray:
-    """使用零相位 Butterworth 带通滤波，保留 lowcut 到 highcut Hz 的成分。"""
+    """使用零相位 Butterworth 带通滤波，保留 lowcut 到 highcut Hz 的成分。
+
+    Apply zero-phase Butterworth band-pass filtering and retain frequencies from lowcut to highcut Hz.
+    """
     values = _validate_signal(signal)
     _validate_sampling_rate(sampling_rate)
     nyquist = sampling_rate / 2

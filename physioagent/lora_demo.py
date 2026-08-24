@@ -1,4 +1,7 @@
-"""在一份 CSV 信号上运行训练好的 LoRA v2 Agent。"""
+"""在一份 CSV 信号上运行训练好的 LoRA v2 Agent。
+
+Run the trained LoRA v2 agent on a CSV signal.
+"""
 
 from __future__ import annotations
 
@@ -42,6 +45,7 @@ def main() -> None:
         raise FileNotFoundError(f"Signal file does not exist: {signal_file}")
 
     # 集群模型已下载到本地挂载目录；禁止程序意外访问 Hugging Face 网络。
+    # The cluster model is mounted locally; prevent accidental Hugging Face network access.
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
     agent = LoRAAgent(

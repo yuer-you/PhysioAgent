@@ -1,4 +1,7 @@
-"""生成 SFT v2.1：只修复 v2 开发评测中剩余的两类局部错误。"""
+"""生成 SFT v2.1：只修复 v2 开发评测中剩余的两类局部错误。
+
+Generate SFT v2.1 to fix only the two remaining local error types found in v2 development evaluation.
+"""
 
 from __future__ import annotations
 
@@ -149,7 +152,10 @@ def _filter_rows(split: str) -> list[dict[str, Any]]:
 
 
 def generate_datasets_v2_1(seed: int = V2_1_SEED) -> dict[str, list[dict[str, Any]]]:
-    """生成 760/170/100；不读取冻结最终测试或其标签。"""
+    """生成 760/170/100；不读取冻结最终测试或其标签。
+
+    Generate 760/170/100 examples without reading the frozen final test or its labels.
+    """
     base = generate_datasets_v2(seed=V2_SEED)
     result = {split: copy.deepcopy(rows) for split, rows in base.items()}
     for split in ("train", "validation"):

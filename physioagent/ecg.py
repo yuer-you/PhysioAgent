@@ -3,6 +3,11 @@
 流程借鉴 Pan–Tompkins 的核心思想，但不是论文算法的逐行复现：带通滤波突出
 QRS 频段，差分平方强调快速变化，移动积分形成检测包络，再用稳健阈值选峰。
 最后回到滤波波形，用绝对幅度定位 R 峰，因此也能处理倒置 QRS。
+
+Lightweight ECG QRS/R-peak detection. The pipeline follows the core Pan–Tompkins ideas rather than
+reproducing the paper line by line: band-pass filtering emphasizes QRS frequencies, squared differences
+highlight fast changes, moving integration builds an envelope, and a robust threshold selects peaks.
+R peaks are then refined on the filtered waveform by absolute amplitude, which also handles inverted QRS.
 """
 
 from __future__ import annotations
@@ -32,7 +37,10 @@ def detect_ecg_r_peaks(
     sampling_rate: float,
     config: ECGDetectorConfig = ECG_DETECTOR_V1_CONFIG,
 ) -> dict[str, object]:
-    """检测 ECG R 峰，返回采样点索引、数量和可复现的配置。"""
+    """检测 ECG R 峰，返回采样点索引、数量和可复现的配置。
+
+    Detect ECG R peaks and return sample indices, count, and a reproducible configuration.
+    """
     values = np.asarray(signal, dtype=float)
     if values.ndim != 1 or values.size == 0 or not np.all(np.isfinite(values)):
         raise ValueError("signal must be a non-empty, finite, one-dimensional array.")
@@ -69,6 +77,7 @@ def detect_ecg_r_peaks(
         left = max(0, int(candidate) - refinement_radius)
         right = min(values.size, int(candidate) + refinement_radius + 1)
         # 使用绝对值兼容向上和向下的 QRS 主波。
+        # Use absolute amplitude to support both upright and inverted dominant QRS waves.
         refined.append(left + int(np.argmax(np.abs(filtered[left:right]))))
     peak_indices = sorted(set(refined))
     return {
@@ -85,7 +94,10 @@ def calculate_ecg_heart_rate(
     sampling_rate: float,
     config: ECGDetectorConfig = ECG_DETECTOR_V1_CONFIG,
 ) -> dict[str, object]:
-    """使用 ECG R 峰间隔计算平均心率。"""
+    """使用 ECG R 峰间隔计算平均心率。
+
+    Compute mean heart rate from intervals between ECG R peaks.
+    """
     peak_result = detect_ecg_r_peaks(signal, sampling_rate, config)
     peaks = np.asarray(peak_result["peak_indices"], dtype=int)
     if peaks.size < 2:

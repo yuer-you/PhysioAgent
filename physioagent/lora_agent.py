@@ -2,6 +2,10 @@
 
 模型只负责输出一个工具调用 JSON；信号读取、数值计算和最终回答均由
 确定性的 Python 代码完成。这样可以避免语言模型自行编造分析结果。
+
+Connect the SFT LoRA model to an executable PhysioAgent loop. The model emits only one tool-call JSON;
+deterministic Python code handles signal loading, numerical computation, and the final answer, preventing
+the language model from fabricating analysis results.
 """
 
 from __future__ import annotations
@@ -18,6 +22,10 @@ class LoRAAgent:
 
     ``generator`` 是一个依赖注入入口：正式运行时加载 Qwen + LoRA；测试时可
     传入轻量假对象，因此 CPU 环境也能检查整个 Agent loop。
+
+    Generate a tool call with LoRA v2 and execute the corresponding signal-processing tool. ``generator``
+    is a dependency-injection point: production loads Qwen + LoRA, while tests can pass a lightweight fake
+    so the complete agent loop remains testable on CPU.
     """
 
     def __init__(
@@ -40,13 +48,17 @@ class LoRAAgent:
         if not question.strip():
             raise ValueError("question must not be empty.")
         # 必须与 LoRA v2 的训练提示词一致，避免训练和实际使用时输入分布不同。
+        # Keep this identical to the LoRA v2 training prompt to avoid train/serve input-distribution drift.
         return [
             {"role": "system", "content": SFT_SYSTEM_PROMPT_V2},
             {"role": "user", "content": question},
         ]
 
     def generate_decision(self, question: str) -> str:
-        """返回模型原始输出，便于调试格式错误。"""
+        """返回模型原始输出，便于调试格式错误。
+
+        Return raw model output to make formatting errors debuggable.
+        """
         return self.generator.generate_messages(self._build_messages(question))
 
     def run(

@@ -1,4 +1,7 @@
-"""从项目根目录运行：python scripts/generate_sft_data_v2_1.py"""
+"""从项目根目录运行：python scripts/generate_sft_data_v2_1.py
+
+Run from the project root: python scripts/generate_sft_data_v2_1.py
+"""
 
 import sys
 from pathlib import Path

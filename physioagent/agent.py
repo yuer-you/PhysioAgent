@@ -2,6 +2,10 @@
 
 RuleBasedAgent 与 QwenAgent 共用同一执行器。二者唯一的区别是如何产生工具调用，
 这样后续比较规则、原始模型和微调模型时是公平的。
+
+Agent decisions and tool execution. RuleBasedAgent and QwenAgent share the same executor; their only
+difference is how they produce tool calls. This keeps later comparisons among rules, the base model,
+and fine-tuned models fair.
 """
 
 from __future__ import annotations
@@ -33,7 +37,10 @@ class AgentResponse:
 
 
 def parse_tool_call(text: str) -> ToolCall:
-    """严格验证模型输出：只能包含一个完整的 JSON 工具调用对象。"""
+    """严格验证模型输出：只能包含一个完整的 JSON 工具调用对象。
+
+    Strictly validate that model output contains exactly one complete JSON tool-call object.
+    """
     try:
         payload = json.loads(text.strip())
     except json.JSONDecodeError as error:
@@ -58,7 +65,10 @@ def parse_tool_call(text: str) -> ToolCall:
 
 
 def _validate_arguments(name: str, arguments: dict[str, Any]) -> None:
-    """根据 schema 检查参数名和最基础的 JSON 类型。"""
+    """根据 schema 检查参数名和最基础的 JSON 类型。
+
+    Validate argument names and basic JSON types against the schema.
+    """
     schema = next(item["function"] for item in TOOL_SCHEMAS if item["function"]["name"] == name)
     properties = schema["parameters"]["properties"]
     unexpected = set(arguments) - set(properties)
@@ -75,7 +85,10 @@ def _validate_arguments(name: str, arguments: dict[str, Any]) -> None:
 
 
 class ToolExecutor:
-    """把已经验证的工具调用映射到普通 Python 函数。"""
+    """把已经验证的工具调用映射到普通 Python 函数。
+
+    Map a validated tool call to an ordinary Python function.
+    """
 
     def run(
         self,
@@ -120,6 +133,7 @@ class ToolExecutor:
                 result = calculate_statistics(signal, sampling_rate)
                 answer = f"信号共 {result['num_samples']} 点、时长 {result['duration_seconds']:.2f} 秒，均值 {result['mean']:.3f}。"
             else:  # parse_tool_call 已拦截未知名称；这里防止手动构造非法 ToolCall。
+                # parse_tool_call rejects unknown names; this branch guards manually constructed invalid ToolCalls.
                 raise ValueError(f"Unknown tool name: {call.name!r}")
 
         return AgentResponse(
@@ -133,7 +147,10 @@ class ToolExecutor:
 
 
 def _require_frozen_ecg_arguments(tool_name: str, arguments: dict[str, Any]) -> None:
-    """ECG v1 配置已冻结，不能让模型输出覆盖其检测参数。"""
+    """ECG v1 配置已冻结，不能让模型输出覆盖其检测参数。
+
+    The ECG v1 configuration is frozen, so model output cannot override detector parameters.
+    """
     if arguments:
         raise ValueError(
             f"{tool_name} with signal_profile='ecg' uses the frozen ecg_detector_v1 configuration "
@@ -142,7 +159,10 @@ def _require_frozen_ecg_arguments(tool_name: str, arguments: dict[str, Any]) -> 
 
 
 class RuleBasedAgent:
-    """用关键词选择工具的对照基线。"""
+    """用关键词选择工具的对照基线。
+
+    Keyword-based tool-selection control baseline.
+    """
 
     def __init__(self) -> None:
         self.executor = ToolExecutor()
@@ -172,7 +192,10 @@ class RuleBasedAgent:
 
 
 class QwenAgent:
-    """从本地目录加载 Qwen，并用它生成结构化工具调用。"""
+    """从本地目录加载 Qwen，并用它生成结构化工具调用。
+
+    Load Qwen from a local directory and use it to generate structured tool calls.
+    """
 
     def __init__(
         self,
@@ -205,6 +228,8 @@ class QwenAgent:
         self.model.eval()
         # Qwen 模型自带的 generation_config 含采样参数。基线使用确定性解码，
         # 因而关闭采样并清空只对采样有效的参数，避免无意义的警告。
+        # Qwen's generation_config includes sampling parameters. The baseline uses deterministic decoding,
+        # so sampling is disabled and sampling-only fields are cleared to avoid irrelevant warnings.
         self.model.generation_config.do_sample = False
         self.model.generation_config.temperature = None
         self.model.generation_config.top_p = None
@@ -213,7 +238,10 @@ class QwenAgent:
         self.executor = ToolExecutor()
 
     def _build_messages(self, question: str) -> list[dict[str, str]]:
-        """构造可复现的 v1-v4 提示词。"""
+        """构造可复现的 v1-v4 提示词。
+
+        Build reproducible v1-v4 prompts.
+        """
         schemas = json.dumps(TOOL_SCHEMAS, ensure_ascii=False, indent=2)
         if self.prompt_version == "v1":
             system_prompt = (
@@ -243,6 +271,7 @@ class QwenAgent:
             )
         elif self.prompt_version == "v3":
             # v3 使用精简的模型侧工具说明，不展示默认数值，降低模型复制默认参数的倾向。
+            # v3 uses a compact model-facing tool guide without defaults to reduce copying of default arguments.
             tool_guide = (
                 "- calculate_statistics: 统计样本数、时长、均值、标准差、最小值、最大值；arguments 永远为 {}。\n"
                 "- load_signal: 读取信号；可选参数 signal_column(string)。\n"
@@ -276,6 +305,7 @@ class QwenAgent:
             )
         else:
             # v4 将参数生成改为“从用户原文抽取”，并加入针对 v3 错误的反例。
+            # v4 reframes argument generation as extraction from user text and adds counterexamples for v3 errors.
             system_prompt = (
                 "你是一个严格的生理时序工具调用编译器。先在内部判断用户的最终目标，"
                 "再从用户原文抽取参数，最后只输出工具调用 JSON。\n\n"
@@ -330,11 +360,17 @@ class QwenAgent:
         ]
 
     def generate_decision(self, question: str) -> str:
-        """只生成模型原文；评测时需要保留无法解析的错误输出。"""
+        """只生成模型原文；评测时需要保留无法解析的错误输出。
+
+        Generate raw model text only so unparsable failures remain available during evaluation.
+        """
         return self.generate_messages(self._build_messages(question))
 
     def generate_messages(self, messages: list[dict[str, str]]) -> str:
-        """对任意 messages 做确定性生成，供单工具和多步规划共用。"""
+        """对任意 messages 做确定性生成，供单工具和多步规划共用。
+
+        Deterministically generate from arbitrary messages for both single-tool and multi-step planning.
+        """
         inputs = self.tokenizer.apply_chat_template(
             messages,
             add_generation_prompt=True,

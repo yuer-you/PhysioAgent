@@ -34,6 +34,7 @@ def test_match_peak_indices_handles_empty_predictions():
 
 def test_reference_heart_rate_uses_mean_rr_interval():
     # 25 Hz 下相邻心搏相隔 20 点，即 0.8 秒，对应 75 BPM。
+    # At 25 Hz, 20 samples between beats equal 0.8 seconds, corresponding to 75 BPM.
     assert mean_heart_rate_from_annotations([20, 40, 60], sampling_rate=25) == pytest.approx(75.0)
 
 

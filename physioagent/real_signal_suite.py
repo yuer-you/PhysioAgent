@@ -1,4 +1,7 @@
-"""真实信号数据划分读取、冻结测试保护和多记录指标汇总。"""
+"""真实信号数据划分读取、冻结测试保护和多记录指标汇总。
+
+Read real-signal splits, protect frozen tests, and aggregate metrics across records.
+"""
 
 from __future__ import annotations
 

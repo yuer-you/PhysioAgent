@@ -1,4 +1,7 @@
-"""Qwen 基础模型与 LoRA adapter 的共享加载器。"""
+"""Qwen 基础模型与 LoRA adapter 的共享加载器。
+
+Shared loader for the Qwen base model and LoRA adapters.
+"""
 
 from __future__ import annotations
 
@@ -7,13 +10,19 @@ from typing import Any, Protocol
 
 
 class MessageGenerator(Protocol):
-    """Agent 和评测共同依赖的最小生成接口。"""
+    """Agent 和评测共同依赖的最小生成接口。
+
+    Minimal generation interface shared by the agent and evaluators.
+    """
 
     def generate_messages(self, messages: list[dict[str, str]]) -> str: ...
 
 
 class LoRAQwenGenerator:
-    """将 LoRA adapter 挂到本地 Qwen，并执行确定性生成。"""
+    """将 LoRA adapter 挂到本地 Qwen，并执行确定性生成。
+
+    Attach a LoRA adapter to local Qwen and perform deterministic generation.
+    """
 
     def __init__(self, model_path: str | Path, adapter_path: str | Path, max_new_tokens: int = 128) -> None:
         import torch
@@ -80,7 +89,10 @@ class LoRAQwenGenerator:
 
 
 def validate_adapter_directory(path: str | Path) -> None:
-    """确认 adapter 目录同时含配置和非空权重。"""
+    """确认 adapter 目录同时含配置和非空权重。
+
+    Verify that the adapter directory contains both configuration and non-empty weights.
+    """
     adapter = Path(path)
     if not adapter.is_dir():
         raise FileNotFoundError(f"LoRA adapter directory does not exist: {adapter}")

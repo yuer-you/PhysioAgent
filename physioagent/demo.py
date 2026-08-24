@@ -1,4 +1,7 @@
-"""运行 MVP 的三个最小示例：python -m physioagent.demo"""
+"""运行 MVP 的三个最小示例：python -m physioagent.demo
+
+Run the three minimal MVP examples: python -m physioagent.demo
+"""
 
 from pathlib import Path
 

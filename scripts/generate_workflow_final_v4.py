@@ -1,4 +1,7 @@
-"""生成 final v4；首次冻结后不得根据模型结果修改并重跑。"""
+"""生成 final v4；首次冻结后不得根据模型结果修改并重跑。
+
+Generate final v4; after the first freeze, do not modify and rerun it based on model results.
+"""
 
 import hashlib
 import sys

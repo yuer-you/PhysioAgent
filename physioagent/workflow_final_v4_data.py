@@ -1,4 +1,7 @@
-"""生成冻结 final v4 案例；不读取 SFT、DPO 或旧评测数据。"""
+"""生成冻结 final v4 案例；不读取 SFT、DPO 或旧评测数据。
+
+Generate frozen final-v4 cases without reading SFT, DPO, or previous evaluation data.
+"""
 
 from __future__ import annotations
 
@@ -290,6 +293,7 @@ def write_workflow_final_v4_cases(path: str | Path) -> Path:
     with destination.open("w", encoding="utf-8", newline="\n") as file:
         for case in generate_workflow_final_v4_cases():
             # 评测器不需要审计字段；策略/语言由冻结测试单元测试从标签与生成器核对。
+            # Evaluators do not need audit fields; frozen-test tests verify strategy/language from labels and generators.
             stored = {key: value for key, value in case.items() if key not in {"load_policy", "language"}}
             file.write(json.dumps(stored, ensure_ascii=False, separators=(",", ":")) + "\n")
     return destination

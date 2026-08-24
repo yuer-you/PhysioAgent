@@ -1,4 +1,7 @@
-"""本地 Qwen 工具调用演示。"""
+"""本地 Qwen 工具调用演示。
+
+Demonstrate local Qwen tool calling.
+"""
 
 from __future__ import annotations
 

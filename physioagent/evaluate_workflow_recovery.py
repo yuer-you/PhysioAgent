@@ -1,4 +1,7 @@
-"""离线评测已保存的模型计划：同时报告严格成绩与保守恢复后的工程成绩。"""
+"""离线评测已保存的模型计划：同时报告严格成绩与保守恢复后的工程成绩。
+
+Evaluate saved model plans offline, reporting both strict and conservatively recovered engineering scores.
+"""
 
 from __future__ import annotations
 

@@ -2,6 +2,10 @@
 
 模型只负责选择工具和填写“用户真正指定的参数”。信号路径与采样率属于应用上下文，
 由 Agent 在执行时提供，避免模型编造路径或传入一大串信号数值。
+
+Tool descriptions in standard JSON Schema format. The model only selects a tool and fills arguments
+explicitly requested by the user. Signal paths and sampling rates belong to application context and are
+provided by the agent at execution time, preventing fabricated paths or large signal arrays in model output.
 """
 
 TOOL_SCHEMAS = [

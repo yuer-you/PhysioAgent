@@ -1,4 +1,7 @@
-"""让本地 Qwen 生成严格多步计划，再交给确定性 WorkflowExecutor。"""
+"""让本地 Qwen 生成严格多步计划，再交给确定性 WorkflowExecutor。
+
+Let local Qwen generate a strict multi-step plan, then hand it to the deterministic WorkflowExecutor.
+"""
 
 from __future__ import annotations
 
@@ -50,6 +53,8 @@ load_signal | calculate_statistics | detect_peaks | calculate_heart_rate | filte
 
 # v2 只针对 v1 暴露出的唯一错误增加边界规则，不改变工具集合或规划任务。
 # 保留 v1 文本可以让两次实验的差异清晰、可复现。
+# v2 adds boundary rules only for the single error exposed by v1, without changing tools or the planning task.
+# Keeping the v1 text makes the difference between experiments explicit and reproducible.
 WORKFLOW_SYSTEM_PROMPT_V2 = WORKFLOW_SYSTEM_PROMPT_V1 + """
 
 v2 参数边界规则（优先遵守）：
@@ -66,6 +71,8 @@ v2 参数边界规则（优先遵守）：
 
 # v3 保留 v2 的参数语义修复，并针对真实输出中遗漏 steps 数组右括号的问题，
 # 增加纯格式自检。仍然不引入自动 JSON 修复，保证评测能暴露模型错误。
+# v3 keeps the v2 semantic fix and adds format-only self-checks for missing steps-array closing brackets.
+# It still avoids automatic JSON repair so evaluation continues to expose model errors.
 WORKFLOW_SYSTEM_PROMPT_V3 = WORKFLOW_SYSTEM_PROMPT_V2 + """
 
 v3 JSON 闭合检查（只在内部检查，不要输出检查过程）：
@@ -87,7 +94,10 @@ WORKFLOW_SYSTEM_PROMPTS = {
 
 
 class ModelWorkflowPlanner:
-    """使用 MessageGenerator 生成并严格解析 workflow JSON。"""
+    """使用 MessageGenerator 生成并严格解析 workflow JSON。
+
+    Generate workflow JSON with MessageGenerator and parse it strictly.
+    """
 
     def __init__(
         self,
@@ -128,7 +138,10 @@ class ModelWorkflowPlanner:
 
 
 class ModelWorkflowAgent:
-    """模型只负责规划；已有确定性执行器负责状态与工具运行。"""
+    """模型只负责规划；已有确定性执行器负责状态与工具运行。
+
+    The model plans only; the deterministic executor manages state and runs tools.
+    """
 
     def __init__(
         self,

@@ -1,4 +1,7 @@
-"""用 MIT-BIH 专家心搏标注检查当前峰检测和心率工具。"""
+"""用 MIT-BIH 专家心搏标注检查当前峰检测和心率工具。
+
+Check the current peak detector and heart-rate tool against expert MIT-BIH heartbeat annotations.
+"""
 
 from __future__ import annotations
 
@@ -21,7 +24,10 @@ def evaluate_real_signal(
     tolerance_seconds: float = 0.15,
     detector: str = "generic",
 ) -> dict[str, Any]:
-    """执行工具并将检测峰与专家标注进行一对一匹配。"""
+    """执行工具并将检测峰与专家标注进行一对一匹配。
+
+    Execute the tools and match detected peaks one-to-one with expert annotations.
+    """
     if detector not in {"generic", "ecg"}:
         raise ValueError("detector must be 'generic' or 'ecg'.")
     if detector == "ecg" and prominence is not None:

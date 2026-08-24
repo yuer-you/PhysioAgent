@@ -1,4 +1,7 @@
-"""使用本地原始 Qwen 生成多步计划，并在真实 ECG 上执行。"""
+"""使用本地原始 Qwen 生成多步计划，并在真实 ECG 上执行。
+
+Generate a multi-step plan with local base Qwen and execute it on a real ECG signal.
+"""
 
 from __future__ import annotations
 

@@ -1,4 +1,7 @@
-"""按预先固定的数据划分汇总多个真实 ECG 片段的工具指标。"""
+"""按预先固定的数据划分汇总多个真实 ECG 片段的工具指标。
+
+Aggregate tool metrics over multiple real ECG excerpts using the predefined data split.
+"""
 
 from __future__ import annotations
 

@@ -2,6 +2,10 @@
 
 这批数据训练“理解问题并输出工具 JSON”，不包含真实信号数值。真实信号用于验证
 工具算法；文本 SFT 数据用于训练模型的工具选择和参数抽取，两者职责不同。
+
+Reproducible tool-calling SFT data generator. These examples teach the model to understand a question and
+emit tool JSON; they do not contain real signal values. Real signals validate tool algorithms, while text
+SFT data trains tool selection and argument extraction. The two responsibilities remain separate.
 """
 
 from __future__ import annotations
@@ -22,7 +26,8 @@ SFT_SYSTEM_PROMPT = (
     "文件路径、信号数组和采样率由程序提供。"
 )
 
-SPLIT_SIZES = {"train": 100, "validation": 20, "test": 20}  # 每个工具的样本数
+# 每个工具的样本数 / Number of examples per tool.
+SPLIT_SIZES = {"train": 100, "validation": 20, "test": 20}
 TOOL_NAMES = (
     "calculate_statistics",
     "load_signal",
@@ -222,7 +227,10 @@ GENERATORS: dict[str, Callable[[random.Random, str], tuple[str, dict[str, Any], 
 
 
 def generate_datasets(seed: int = 20260812) -> dict[str, list[dict[str, Any]]]:
-    """生成平衡且问题文本互不重复的 train/validation/test 数据。"""
+    """生成平衡且问题文本互不重复的 train/validation/test 数据。
+
+    Generate balanced train/validation/test data with no repeated question text.
+    """
     rng = random.Random(seed)
     datasets: dict[str, list[dict[str, Any]]] = {}
     all_questions: set[str] = set()
@@ -267,7 +275,10 @@ def generate_datasets(seed: int = 20260812) -> dict[str, list[dict[str, Any]]]:
 
 
 def validate_datasets(datasets: dict[str, list[dict[str, Any]]]) -> None:
-    """在写盘前检查数量、平衡性、格式、标签和跨集合泄漏。"""
+    """在写盘前检查数量、平衡性、格式、标签和跨集合泄漏。
+
+    Validate counts, balance, format, labels, and cross-split leakage before writing files.
+    """
     seen_ids: set[str] = set()
     seen_questions: set[str] = set()
     for split, rows in datasets.items():

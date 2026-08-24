@@ -2,6 +2,10 @@
 
 默认配置针对单张 16GB A4000。首次必须使用 --dry-run --inspect-token-lengths，
 该模式只检查数据、adapter 路径和 tokenizer，不加载模型权重或使用 GPU。
+
+Continue preference training from Workflow LoRA v2 with TRL DPOTrainer. Defaults target one 16 GB A4000.
+The first run must use --dry-run --inspect-token-lengths, which validates data, adapter paths, and the
+tokenizer without loading model weights or using a GPU.
 """
 
 from __future__ import annotations
@@ -236,6 +240,7 @@ def train(args: argparse.Namespace) -> None:
         local_files_only=True,
     )
     # reference 是 DPO 开始前 SFT adapter 的冻结副本；DPOTrainer 会在同一模型内切换 adapter。
+    # The reference is a frozen pre-DPO SFT adapter; DPOTrainer switches adapters within the same model.
     model.load_adapter(
         adapter_path,
         adapter_name="reference",

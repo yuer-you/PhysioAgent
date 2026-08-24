@@ -1,4 +1,7 @@
-"""生成多步 Workflow SFT v1 数据；不读取任何冻结工作流测试集。"""
+"""生成多步 Workflow SFT v1 数据；不读取任何冻结工作流测试集。
+
+Generate multi-step Workflow SFT v1 data without reading any frozen workflow test set.
+"""
 
 from __future__ import annotations
 
@@ -337,6 +340,7 @@ def write_workflow_sft_datasets(
     for split, rows in datasets.items():
         path = output / f"{split}.jsonl"
         # 固定使用 LF，确保 Windows 本地与 Linux 服务器生成完全相同的字节和 SHA-256。
+        # Force LF so Windows and Linux generate identical bytes and SHA-256 hashes.
         with path.open("w", encoding="utf-8", newline="\n") as file:
             for row in rows:
                 file.write(json.dumps(row, ensure_ascii=False) + "\n")

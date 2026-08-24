@@ -2,6 +2,10 @@
 
 这一版只实现线性计划，不做循环、反思或模型自由规划。每一步都读取上一状态中的
 内存信号，并记录输入来源、参数、结果摘要和 grounded answer。
+
+Deterministic multi-step tool controller without an agent framework. This version implements only linear
+plans, without loops, reflection, or unconstrained model planning. Every step reads the in-memory signal
+from the previous state and records its input source, arguments, result summary, and grounded answer.
 """
 
 from __future__ import annotations
@@ -51,7 +55,10 @@ class WorkflowResponse:
 
 @dataclass(frozen=True)
 class RecoveredWorkflowPlan:
-    """严格解析或一次保守恢复后的计划，以及完整审计信息。"""
+    """严格解析或一次保守恢复后的计划，以及完整审计信息。
+
+    A strictly parsed or conservatively recovered plan with complete audit information.
+    """
 
     steps: list[WorkflowStep]
     original_text: str
@@ -62,7 +69,10 @@ class RecoveredWorkflowPlan:
 
 
 def parse_workflow_plan(text: str, max_steps: int = 4) -> list[WorkflowStep]:
-    """严格解析模型计划：顶层只能有 steps，且每一步都是合法工具调用。"""
+    """严格解析模型计划：顶层只能有 steps，且每一步都是合法工具调用。
+
+    Strictly parse a model plan whose top level contains only steps and whose steps are valid tool calls.
+    """
     if max_steps <= 0:
         raise ValueError("max_steps must be positive.")
     try:
@@ -93,7 +103,10 @@ def parse_workflow_plan_with_recovery(
     text: str,
     max_steps: int = 4,
 ) -> RecoveredWorkflowPlan:
-    """先严格解析；仅在唯一可判定的缺失 steps 右括号场景下恢复。"""
+    """先严格解析；仅在唯一可判定的缺失 steps 右括号场景下恢复。
+
+    Parse strictly first and recover only the uniquely identifiable missing steps closing bracket.
+    """
     try:
         steps = parse_workflow_plan(text, max_steps=max_steps)
         return RecoveredWorkflowPlan(
@@ -109,6 +122,7 @@ def parse_workflow_plan_with_recovery(
             steps = parse_workflow_plan(candidate, max_steps=max_steps)
         except ValueError:
             # 候选文本仍不满足完整 schema 时，报告原始严格解析错误，不做第二种猜测。
+            # If the candidate still fails the full schema, report the original error without another guess.
             raise strict_error
         return RecoveredWorkflowPlan(
             steps=steps,
@@ -121,13 +135,18 @@ def parse_workflow_plan_with_recovery(
 
 
 def _repair_missing_steps_closing_bracket(text: str) -> str | None:
-    """当最外层 steps 数组唯一缺少 `]` 时构造一个候选文本。"""
+    """当最外层 steps 数组唯一缺少 `]` 时构造一个候选文本。
+
+    Build one candidate when the outermost steps array is missing only its closing `]`.
+    """
     stripped = text.strip()
     if not re.match(r'^\{\s*"steps"\s*:\s*\[', stripped) or not stripped.endswith("}"):
         return None
 
     # 暂时移除最后的顶层 `}`。若剩余文本恰好只有顶层对象和 steps 数组未闭合，
     # 就能唯一确定应当先补 `]`，再放回这个 `}`。
+    # Temporarily remove the final top-level `}`. If only the top object and steps array remain open,
+    # the unique repair is to insert `]` before restoring that `}`.
     open_delimiters = _open_json_delimiters(stripped[:-1])
     if open_delimiters != ["{", "["]:
         return None
@@ -135,7 +154,10 @@ def _repair_missing_steps_closing_bracket(text: str) -> str | None:
 
 
 def _open_json_delimiters(text: str) -> list[str] | None:
-    """返回 JSON 文本外部尚未闭合的括号；字符串内部的括号不参与计算。"""
+    """返回 JSON 文本外部尚未闭合的括号；字符串内部的括号不参与计算。
+
+    Return unclosed delimiters outside JSON strings; delimiters inside strings do not count.
+    """
     stack: list[str] = []
     in_string = False
     escaped = False
@@ -163,7 +185,10 @@ def _open_json_delimiters(text: str) -> list[str] | None:
 
 
 class RuleBasedWorkflowPlanner:
-    """把少量明确的组合问法转换为线性工具计划。"""
+    """把少量明确的组合问法转换为线性工具计划。
+
+    Convert a small set of explicit compound requests into linear tool plans.
+    """
 
     def plan(self, question: str) -> list[WorkflowStep]:
         text = question.strip()
@@ -177,6 +202,7 @@ class RuleBasedWorkflowPlanner:
             steps.append(WorkflowStep("filter_signal", self._extract_filter_arguments(text)))
 
         # 心率是最终目标时，即使问题也提到 R 峰，也应以心率工具结束。
+        # When heart rate is the final goal, finish with the HR tool even if the question mentions R peaks.
         if any(token in lowered for token in ("心率", "bpm", "heart rate", "每分钟", "跳多少")):
             steps.append(WorkflowStep("calculate_heart_rate"))
         elif any(token in lowered for token in ("r 峰", "r峰", "峰值", "peaks", "peak")):
@@ -234,7 +260,10 @@ class RuleBasedWorkflowPlanner:
 
 
 class WorkflowExecutor:
-    """顺序执行计划，并在内存中传递最新信号。"""
+    """顺序执行计划，并在内存中传递最新信号。
+
+    Execute a plan sequentially while passing the latest signal in memory.
+    """
 
     def __init__(self, max_steps: int = 4) -> None:
         if max_steps <= 0:
@@ -299,13 +328,17 @@ class WorkflowExecutor:
 
     @staticmethod
     def _validate_plan_compatibility(plan: list[WorkflowStep], signal_profile: str) -> None:
-        """阻止前置滤波删除下游 ECG 检测器必需的频率信息。"""
+        """阻止前置滤波删除下游 ECG 检测器必需的频率信息。
+
+        Prevent upstream filtering from removing frequencies required by the downstream ECG detector.
+        """
         if signal_profile != "ecg":
             return
         active_filter_bands: list[tuple[float, float]] = []
         for step in plan:
             if step.name == "load_signal":
                 # 重新加载原始信号会清除之前所有滤波的影响。
+                # Reloading the original signal clears the effect of every previous filter.
                 active_filter_bands = []
             elif step.name == "filter_signal":
                 active_filter_bands.append(
@@ -375,7 +408,10 @@ class WorkflowExecutor:
 
 
 class RuleBasedWorkflowAgent:
-    """组合规则规划器和内存执行器的最小多步 Agent。"""
+    """组合规则规划器和内存执行器的最小多步 Agent。
+
+    Minimal multi-step agent combining the rule planner and in-memory executor.
+    """
 
     def __init__(self) -> None:
         self.planner = RuleBasedWorkflowPlanner()
@@ -410,7 +446,10 @@ def workflow_response_to_dict(
     signal_file: str | Path,
     sampling_rate: float,
 ) -> dict[str, Any]:
-    """把 workflow 轨迹转换成紧凑、可写 JSON 的结构。"""
+    """把 workflow 轨迹转换成紧凑、可写 JSON 的结构。
+
+    Convert a workflow trace into a compact JSON-serializable structure.
+    """
     return {
         "workflow": (
             "model_workflow_v1"
