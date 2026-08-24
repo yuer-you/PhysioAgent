@@ -1,0 +1,28 @@
+{
+  "name": "physioagent_final_cases_v1",
+  "status": "frozen",
+  "created_date": "2026-08-12",
+  "num_cases": 100,
+  "cases_per_category": 20,
+  "categories": [
+    "statistics",
+    "load",
+    "peaks",
+    "heart_rate",
+    "filter"
+  ],
+  "sha256": "d21fefe16c275cf39e1a0f119d0c5bd8ed381457ab8c9831340acfb83f809d04",
+  "rules": [
+    "This file must not be used for training, validation, prompt design, or hyperparameter selection.",
+    "Do not edit final_cases_v1.jsonl after freezing it.",
+    "Verify the SHA-256 hash before final evaluation.",
+    "Any model change made after inspecting these labels or results requires a new untouched final test version."
+  ],
+  "known_non_final_sets": [
+    "data/sft/train.jsonl",
+    "data/sft/validation.jsonl",
+    "data/sft/test.jsonl",
+    "evaluation/tool_calling_cases.jsonl"
+  ],
+  "note": "Questions are text-only tool-calling cases. They do not evaluate numerical signal-processing correctness or clinical validity."
+}

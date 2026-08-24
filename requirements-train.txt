@@ -1,0 +1,6 @@
+# LoRA/SFT 的固定环境，避免后续新版依赖改变已验证的训练行为。
+# PyArrow 17 为 Python 3.11 + manylinux 提供预编译 wheel，无需 Rust/C++ 编译环境。
+pyarrow==17.0.0
+datasets==3.6.0
+peft==0.17.1
+trl==0.24.0

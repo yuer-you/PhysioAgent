@@ -1,0 +1,5 @@
+# 只用于下载和读取 PhysioNet/WFDB 数据；与训练依赖分开，便于理解用途。
+# WFDB 4.1.2 的依赖没有限制 pandas 上界；pandas 3 默认使用新的字符串类型，
+# 会让 WFDB 4.1.2 初始化失败。因此固定到仍兼容 Python 3.11 的 pandas 2.2.3。
+pandas==2.2.3
+wfdb==4.1.2

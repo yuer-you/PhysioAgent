@@ -1,0 +1,47 @@
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+.env
+.env.*
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary work
+*.log
+work/
+tmp/
+
+# Model weights and training checkpoints belong in Hugging Face Hub or Releases
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+checkpoint-*/
+
+# Deterministically generated training data; keep generators, README and manifests
+data/sft/*.jsonl
+data/sft_v2/*.jsonl
+data/sft_v2_1/*.jsonl
+data/sft_workflow_v1/*.jsonl
+data/sft_workflow_v2/*.jsonl
+data/dpo_workflow_v1/*.jsonl
+
+# Keep only compact human-readable reports under outputs
+outputs/**
+!outputs/**/
+!outputs/**/REPORT.md
+
+# Local/internal infrastructure notes
+DOCKER_SETUP_INSIS.md
+Dockerfile.base

@@ -1,0 +1,12 @@
+{"id":"stats_zh_01","question":"请给出这段信号的均值、标准差、最小值和最大值。","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_en_01","question":"Summarize the duration and basic statistics of this signal.","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"heart_zh_01","question":"这段信号的平均心率是多少？","expected_name":"calculate_heart_rate","expected_arguments":{}}
+{"id":"heart_en_01","question":"Estimate the heart rate in BPM.","expected_name":"calculate_heart_rate","expected_arguments":{}}
+{"id":"heart_param_01","question":"估计心率，要求相邻心搏峰至少间隔 0.5 秒。","expected_name":"calculate_heart_rate","expected_arguments":{"min_distance_seconds":0.5}}
+{"id":"peaks_zh_01","question":"检测这段信号中的峰值。","expected_name":"detect_peaks","expected_arguments":{}}
+{"id":"peaks_param_01","question":"检测峰值，只保留突出度至少为 0.4 的峰。","expected_name":"detect_peaks","expected_arguments":{"prominence":0.4}}
+{"id":"filter_zh_01","question":"请对这段信号进行带通滤波。","expected_name":"filter_signal","expected_arguments":{}}
+{"id":"filter_param_01","question":"请保留 0.5 到 8 Hz 的频率成分。","expected_name":"filter_signal","expected_arguments":{"lowcut":0.5,"highcut":8.0}}
+{"id":"filter_param_02","question":"使用四阶带通滤波器保留 1 到 10 Hz。","expected_name":"filter_signal","expected_arguments":{"lowcut":1.0,"highcut":10.0,"order":4}}
+{"id":"load_zh_01","question":"请读取当前的信号文件。","expected_name":"load_signal","expected_arguments":{}}
+{"id":"load_param_01","question":"请从 CSV 的 value 列读取信号。","expected_name":"load_signal","expected_arguments":{"signal_column":"value"}}

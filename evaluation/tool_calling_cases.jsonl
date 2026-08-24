@@ -1,0 +1,60 @@
+{"id":"stats_zh_01","category":"statistics","question":"请给出这段信号的均值、标准差、最小值和最大值。","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_zh_02","category":"statistics","question":"这段记录一共有多少采样点，持续了几秒？","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_zh_03","category":"statistics","question":"帮我概括一下当前生理信号的基本统计特征。","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_zh_04","category":"statistics","question":"我想知道信号的平均值和波动程度。","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_zh_05","category":"statistics","question":"不用滤波，只计算描述性统计量。","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_zh_06","category":"statistics","question":"先别找峰，请报告时长、均值与标准差。","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_en_01","category":"statistics","question":"Summarize the duration and basic statistics of this signal.","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_en_02","category":"statistics","question":"What are the mean, standard deviation, minimum, and maximum?","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_en_03","category":"statistics","question":"Report the sample count and duration of the current recording.","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_en_04","category":"statistics","question":"Give me a descriptive summary of the waveform.","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_en_05","category":"statistics","question":"Do not filter it; just compute its basic statistics.","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"stats_en_06","category":"statistics","question":"Without detecting peaks, tell me the range and variability of the signal.","expected_name":"calculate_statistics","expected_arguments":{}}
+{"id":"load_zh_01","category":"load","question":"请读取当前的信号文件。","expected_name":"load_signal","expected_arguments":{}}
+{"id":"load_zh_02","category":"load","question":"把这个 CSV 中的生理时序加载进来。","expected_name":"load_signal","expected_arguments":{}}
+{"id":"load_zh_03","category":"load","question":"使用默认列读取信号。","expected_name":"load_signal","expected_arguments":{}}
+{"id":"load_zh_04","category":"load","question":"请从 CSV 的 value 列读取信号。","expected_name":"load_signal","expected_arguments":{"signal_column":"value"}}
+{"id":"load_zh_05","category":"load","question":"加载 ecg 这一列的数据。","expected_name":"load_signal","expected_arguments":{"signal_column":"ecg"}}
+{"id":"load_zh_06","category":"load","question":"读取名为 PPG 的信号列。","expected_name":"load_signal","expected_arguments":{"signal_column":"PPG"}}
+{"id":"load_en_01","category":"load","question":"Load the current CSV signal.","expected_name":"load_signal","expected_arguments":{}}
+{"id":"load_en_02","category":"load","question":"Read the waveform using the default column.","expected_name":"load_signal","expected_arguments":{}}
+{"id":"load_en_03","category":"load","question":"Open the current physiological time-series file.","expected_name":"load_signal","expected_arguments":{}}
+{"id":"load_en_04","category":"load","question":"Read the samples from the waveform column.","expected_name":"load_signal","expected_arguments":{"signal_column":"waveform"}}
+{"id":"load_en_05","category":"load","question":"Load the CSV column named lead_ii.","expected_name":"load_signal","expected_arguments":{"signal_column":"lead_ii"}}
+{"id":"load_en_06","category":"load","question":"Use channel_A as the signal column.","expected_name":"load_signal","expected_arguments":{"signal_column":"channel_A"}}
+{"id":"peaks_zh_01","category":"peaks","question":"检测这段信号中的峰值。","expected_name":"detect_peaks","expected_arguments":{}}
+{"id":"peaks_zh_02","category":"peaks","question":"按默认设置找出所有局部峰。","expected_name":"detect_peaks","expected_arguments":{}}
+{"id":"peaks_zh_03","category":"peaks","question":"标出波形中的峰，不需要计算心率。","expected_name":"detect_peaks","expected_arguments":{}}
+{"id":"peaks_zh_04","category":"peaks","question":"检测峰值，只保留突出度至少为 0.4 的峰。","expected_name":"detect_peaks","expected_arguments":{"prominence":0.4}}
+{"id":"peaks_zh_05","category":"peaks","question":"找峰时要求相邻峰至少间隔 0.6 秒。","expected_name":"detect_peaks","expected_arguments":{"min_distance_seconds":0.6}}
+{"id":"peaks_zh_06","category":"peaks","question":"以 500 毫秒为最小峰间隔、0.25 为最小突出度检测峰。","expected_name":"detect_peaks","expected_arguments":{"min_distance_seconds":0.5,"prominence":0.25}}
+{"id":"peaks_en_01","category":"peaks","question":"Detect the local peaks in this waveform.","expected_name":"detect_peaks","expected_arguments":{}}
+{"id":"peaks_en_02","category":"peaks","question":"Find peaks using the default settings.","expected_name":"detect_peaks","expected_arguments":{}}
+{"id":"peaks_en_03","category":"peaks","question":"Locate the peaks, but do not estimate heart rate.","expected_name":"detect_peaks","expected_arguments":{}}
+{"id":"peaks_en_04","category":"peaks","question":"Detect peaks with a minimum prominence of 0.35.","expected_name":"detect_peaks","expected_arguments":{"prominence":0.35}}
+{"id":"peaks_en_05","category":"peaks","question":"Require at least 0.7 seconds between neighboring peaks.","expected_name":"detect_peaks","expected_arguments":{"min_distance_seconds":0.7}}
+{"id":"peaks_en_06","category":"peaks","question":"Find peaks with 0.45 seconds minimum distance and prominence 0.2.","expected_name":"detect_peaks","expected_arguments":{"min_distance_seconds":0.45,"prominence":0.2}}
+{"id":"heart_zh_01","category":"heart_rate","question":"这段信号的平均心率是多少？","expected_name":"calculate_heart_rate","expected_arguments":{}}
+{"id":"heart_zh_02","category":"heart_rate","question":"请用默认设置估算 BPM。","expected_name":"calculate_heart_rate","expected_arguments":{}}
+{"id":"heart_zh_03","category":"heart_rate","question":"根据相邻心搏峰的间隔计算平均心率。","expected_name":"calculate_heart_rate","expected_arguments":{}}
+{"id":"heart_zh_04","category":"heart_rate","question":"估计心率，要求相邻心搏峰至少间隔 0.5 秒。","expected_name":"calculate_heart_rate","expected_arguments":{"min_distance_seconds":0.5}}
+{"id":"heart_zh_05","category":"heart_rate","question":"计算 BPM，只使用突出度不低于 0.3 的峰。","expected_name":"calculate_heart_rate","expected_arguments":{"prominence":0.3}}
+{"id":"heart_zh_06","category":"heart_rate","question":"按 0.4 秒最小峰间隔和 0.15 突出度估算心率。","expected_name":"calculate_heart_rate","expected_arguments":{"min_distance_seconds":0.4,"prominence":0.15}}
+{"id":"heart_en_01","category":"heart_rate","question":"Estimate the heart rate in BPM.","expected_name":"calculate_heart_rate","expected_arguments":{}}
+{"id":"heart_en_02","category":"heart_rate","question":"Calculate mean heart rate using the default settings.","expected_name":"calculate_heart_rate","expected_arguments":{}}
+{"id":"heart_en_03","category":"heart_rate","question":"Use the intervals between beats to report average heart rate.","expected_name":"calculate_heart_rate","expected_arguments":{}}
+{"id":"heart_en_04","category":"heart_rate","question":"Estimate BPM with at least 0.55 seconds between heart-beat peaks.","expected_name":"calculate_heart_rate","expected_arguments":{"min_distance_seconds":0.55}}
+{"id":"heart_en_05","category":"heart_rate","question":"Calculate heart rate from peaks whose prominence is at least 0.5.","expected_name":"calculate_heart_rate","expected_arguments":{"prominence":0.5}}
+{"id":"heart_en_06","category":"heart_rate","question":"Estimate heart rate with minimum peak distance 0.48 seconds and prominence 0.2.","expected_name":"calculate_heart_rate","expected_arguments":{"min_distance_seconds":0.48,"prominence":0.2}}
+{"id":"filter_zh_01","category":"filter","question":"请对这段信号进行带通滤波。","expected_name":"filter_signal","expected_arguments":{}}
+{"id":"filter_zh_02","category":"filter","question":"使用默认参数清理当前波形中的带外噪声。","expected_name":"filter_signal","expected_arguments":{}}
+{"id":"filter_zh_03","category":"filter","question":"请保留 0.5 到 8 Hz 的频率成分。","expected_name":"filter_signal","expected_arguments":{"lowcut":0.5,"highcut":8.0}}
+{"id":"filter_zh_04","category":"filter","question":"使用四阶带通滤波器处理信号。","expected_name":"filter_signal","expected_arguments":{"order":4}}
+{"id":"filter_zh_05","category":"filter","question":"用二阶滤波器保留 1 到 10 Hz。","expected_name":"filter_signal","expected_arguments":{"lowcut":1.0,"highcut":10.0,"order":2}}
+{"id":"filter_zh_06","category":"filter","question":"将低截止频率设为 0.8 Hz，高截止频率设为 9 Hz。","expected_name":"filter_signal","expected_arguments":{"lowcut":0.8,"highcut":9.0}}
+{"id":"filter_en_01","category":"filter","question":"Band-pass filter the current signal.","expected_name":"filter_signal","expected_arguments":{}}
+{"id":"filter_en_02","category":"filter","question":"Filter the waveform with the default configuration.","expected_name":"filter_signal","expected_arguments":{}}
+{"id":"filter_en_03","category":"filter","question":"Keep frequencies from 0.7 Hz through 11 Hz.","expected_name":"filter_signal","expected_arguments":{"lowcut":0.7,"highcut":11.0}}
+{"id":"filter_en_04","category":"filter","question":"Apply a sixth-order band-pass filter.","expected_name":"filter_signal","expected_arguments":{"order":6}}
+{"id":"filter_en_05","category":"filter","question":"Use a third-order filter with cutoffs at 1.5 and 9.5 Hz.","expected_name":"filter_signal","expected_arguments":{"lowcut":1.5,"highcut":9.5,"order":3}}
+{"id":"filter_en_06","category":"filter","question":"Set the low cutoff to 0.6 Hz and the high cutoff to 8.5 Hz.","expected_name":"filter_signal","expected_arguments":{"lowcut":0.6,"highcut":8.5}}

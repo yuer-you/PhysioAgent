@@ -1,0 +1,53 @@
+{
+  "version": "workflow_dpo_v1",
+  "seed": 20260822,
+  "system_prompt": "workflow_prompt_v2_with_ecg_profile",
+  "split_sizes": {
+    "train": 1000,
+    "validation": 200
+  },
+  "preference_counts": {
+    "train": {
+      "omit_load": 300,
+      "default_invent_column": 160,
+      "explicit_drop_column": 160,
+      "extra_unrequested_load": 180,
+      "omit_final_analysis": 80,
+      "duplicate_final_analysis": 120
+    },
+    "validation": {
+      "omit_load": 60,
+      "default_invent_column": 32,
+      "explicit_drop_column": 32,
+      "extra_unrequested_load": 36,
+      "omit_final_analysis": 16,
+      "duplicate_final_analysis": 24
+    }
+  },
+  "preference_length_direction": {
+    "chosen_longer": [
+      "omit_load",
+      "omit_final_analysis"
+    ],
+    "equal_structure": [
+      "default_invent_column",
+      "explicit_drop_column"
+    ],
+    "chosen_shorter": [
+      "extra_unrequested_load",
+      "duplicate_final_analysis"
+    ]
+  },
+  "file_sha256": {
+    "train": "b6c7cd4244943cdfeb92b5dcb7ee805f4ffab8e212754b76ba4b1f3cae59ddd2",
+    "validation": "b2a12a322522ccee388e7cbc82c9a7f939ec7212fc9ef90ad81fa738f84f053e"
+  },
+  "frozen_tests_read_by_generator": false,
+  "diagnostic_inspiration": "final v3 error taxonomy only; no final question or output is copied",
+  "forbidden_training_sources": [
+    "evaluation/workflow_final_cases_v1.jsonl",
+    "evaluation/workflow_final_cases_v2.jsonl",
+    "evaluation/workflow_final_cases_v3.jsonl"
+  ],
+  "test_split_created": false
+}

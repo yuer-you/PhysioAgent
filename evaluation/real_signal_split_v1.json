@@ -1,0 +1,41 @@
+{
+  "name": "mitdb_real_signal_split_v1",
+  "created_before_ecg_detector_changes": true,
+  "segment_policy": "first 30 seconds, channel 0",
+  "records": [
+    {
+      "record": "100",
+      "split": "development",
+      "duration_seconds": 30.0,
+      "channel": 0,
+      "data_dir": "data/real/mitdb/100_30s"
+    },
+    {
+      "record": "101",
+      "split": "validation",
+      "duration_seconds": 30.0,
+      "channel": 0,
+      "data_dir": "data/real/mitdb/101_30s"
+    },
+    {
+      "record": "200",
+      "split": "validation",
+      "duration_seconds": 30.0,
+      "channel": 0,
+      "data_dir": "data/real/mitdb/200_30s"
+    },
+    {
+      "record": "207",
+      "split": "test",
+      "status": "frozen-unseen",
+      "duration_seconds": 30.0,
+      "channel": 0,
+      "data_dir": "data/real/mitdb/207_30s"
+    }
+  ],
+  "policy": {
+    "development": "May be inspected while designing the ECG detector.",
+    "validation": "May be used to select one fixed detector configuration.",
+    "test": "Do not download, inspect, or evaluate until the detector configuration is frozen."
+  }
+}

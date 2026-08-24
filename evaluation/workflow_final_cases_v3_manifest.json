@@ -1,0 +1,48 @@
+{
+  "name": "workflow_final_cases_v3",
+  "status": "frozen-unseen",
+  "frozen_before_adapter_training": true,
+  "num_cases": 60,
+  "cases_file": "evaluation/workflow_final_cases_v3.jsonl",
+  "cases_sha256": "b6a62188d1f039b984f5a050c3cd451e2ac349b1a5f92ff16b942352dec30025",
+  "model_policy": {
+    "base_model": "Qwen2.5-3B-Instruct",
+    "adapter": "outputs/sft/qwen2.5-3b-workflow-lora-v2/final_adapter",
+    "workflow_prompt_version": "v2",
+    "max_new_tokens": 128,
+    "strict_parser": true,
+    "conservative_recovery": "not used for the primary metric",
+    "paired_base_model_comparison": true
+  },
+  "training_data": {
+    "train_file": "data/sft_workflow_v2/train.jsonl",
+    "train_sha256": "66da58371d627997e13a1bd37b7c59c7a4f062e2d8d84171a7b1e350125e63a8",
+    "validation_file": "data/sft_workflow_v2/validation.jsonl",
+    "validation_sha256": "aead0dbb6f1069e1ea5f899399578455b6612aaedd955409b9096c0722190a74"
+  },
+  "coverage": {
+    "languages": ["Chinese", "English"],
+    "step_counts": {"1": 8, "2": 26, "3": 26},
+    "load_policies": {"load_explicit": 18, "load_default": 18, "no_load": 24},
+    "records": ["100", "101", "200", "207"],
+    "categories": {
+      "single_step": 8,
+      "filter_then_heart_rate": 6,
+      "filter_then_peaks": 6,
+      "filter_then_statistics": 6,
+      "load_then_statistics": 8,
+      "load_filter_heart_rate": 8,
+      "load_filter_peaks": 8,
+      "load_filter_statistics": 10
+    }
+  },
+  "scope": "Unseen language/planning test with held-out source-selection paraphrases and matched no-load controls; existing ECG records are reused.",
+  "policy": [
+    "The cases and labels are frozen before Workflow LoRA v2 training and before any model generation on final v3.",
+    "The test uses a third phrase family not copied from Workflow SFT v2 train or validation.",
+    "Every expected plan must execute successfully with the deterministic tools before freezing.",
+    "Run the unchanged base model and the new adapter once each with identical prompt and decoding settings.",
+    "The strict end-to-end metric is primary; recovery, if computed later, remains separate.",
+    "Do not tune from final v3 failures and report another run on this file as an unseen v3 result."
+  ]
+}

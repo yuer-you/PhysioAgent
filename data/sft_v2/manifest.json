@@ -1,0 +1,23 @@
+{
+  "version": "synthetic_targeted_v2",
+  "seed": 20260813,
+  "base_seed": 20260812,
+  "system_prompt_version": "v2_canonical_parameter_names",
+  "split_sizes": {
+    "train": 700,
+    "validation": 150,
+    "test": 100
+  },
+  "per_tool": {
+    "train": 140,
+    "validation": 30,
+    "test": 20
+  },
+  "targeted_additions_per_tool": {
+    "train": 40,
+    "validation": 10
+  },
+  "test_status": "development_test_previously_inspected",
+  "frozen_final_test": "evaluation/final_cases_v1.jsonl",
+  "final_test_used_by_generator": false
+}

@@ -1,0 +1,16 @@
+{
+  "version": "synthetic_template_v1",
+  "seed": 20260812,
+  "format": "conversational_prompt_completion",
+  "split_sizes": {
+    "train": 500,
+    "validation": 100,
+    "test": 100
+  },
+  "per_tool": {
+    "train": 100,
+    "validation": 20,
+    "test": 20
+  },
+  "note": "Synthetic held-out test uses disjoint templates; a manually authored final test is still required."
+}

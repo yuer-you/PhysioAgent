@@ -1,0 +1,90 @@
+{
+  "version": "workflow_sft_v2",
+  "seed": 20260822,
+  "system_prompt": "workflow_prompt_v2_with_ecg_profile",
+  "design_goal": "load_signal paraphrase generalization with split-isolated phrase families",
+  "split_sizes": {
+    "train": 1800,
+    "validation": 300
+  },
+  "category_counts": {
+    "train": {
+      "single_step": 240,
+      "filter_then_heart_rate": 180,
+      "filter_then_peaks": 180,
+      "filter_then_statistics": 180,
+      "load_then_statistics": 180,
+      "load_filter_heart_rate": 240,
+      "load_filter_peaks": 240,
+      "load_filter_statistics": 360
+    },
+    "validation": {
+      "single_step": 40,
+      "filter_then_heart_rate": 30,
+      "filter_then_peaks": 30,
+      "filter_then_statistics": 30,
+      "load_then_statistics": 30,
+      "load_filter_heart_rate": 40,
+      "load_filter_peaks": 40,
+      "load_filter_statistics": 60
+    }
+  },
+  "step_counts": {
+    "train": {
+      "1": 240,
+      "2": 720,
+      "3": 840
+    },
+    "validation": {
+      "1": 40,
+      "2": 120,
+      "3": 140
+    }
+  },
+  "load_policy_counts": {
+    "train": {
+      "load_default": 534,
+      "load_explicit": 534,
+      "no_load": 732
+    },
+    "validation": {
+      "load_default": 90,
+      "load_explicit": 88,
+      "no_load": 122
+    }
+  },
+  "columns": {
+    "train": [
+      "signal",
+      "MLII",
+      "ECG_I",
+      "lead_II",
+      "wave_raw",
+      "channel_A",
+      "trace_main",
+      "ecg_mv"
+    ],
+    "validation": [
+      "lead_V1",
+      "recording",
+      "primary_signal",
+      "sensor_ecg"
+    ]
+  },
+  "paraphrase_policy": {
+    "train": "train-only load templates",
+    "validation": "validation-only held-out load templates"
+  },
+  "file_sha256": {
+    "train": "66da58371d627997e13a1bd37b7c59c7a4f062e2d8d84171a7b1e350125e63a8",
+    "validation": "aead0dbb6f1069e1ea5f899399578455b6612aaedd955409b9096c0722190a74"
+  },
+  "frozen_tests_read_by_generator": false,
+  "diagnostic_inspiration": "final v2 error taxonomy only; no final question is read or copied",
+  "forbidden_training_sources": [
+    "evaluation/workflow_planning_cases_v1.jsonl",
+    "evaluation/workflow_final_cases_v1.jsonl",
+    "evaluation/workflow_final_cases_v2.jsonl"
+  ],
+  "test_split_created": false
+}

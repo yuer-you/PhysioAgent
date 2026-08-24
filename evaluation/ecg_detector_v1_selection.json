@@ -1,0 +1,57 @@
+{
+  "selection": "ecg_detector_v1",
+  "selected_on": "2026-08-20",
+  "status": "frozen-test-complete-configuration-unchanged",
+  "real_signal_manifest": "evaluation/real_signal_split_v1.json",
+  "real_signal_manifest_sha256": "39f94aa91bec163cbaa19b22a589c6ff8b4ea3d526620013a04bb7675b556332",
+  "development_records": [
+    "100"
+  ],
+  "validation_records": [
+    "101",
+    "200"
+  ],
+  "frozen_unseen_test_records": [
+    "207"
+  ],
+  "configuration": {
+    "lowcut_hz": 5.0,
+    "highcut_hz": 15.0,
+    "filter_order": 2,
+    "integration_window_seconds": 0.12,
+    "min_distance_seconds": 0.25,
+    "threshold_mad_multiplier": 5.0,
+    "refinement_radius_seconds": 0.12
+  },
+  "selection_rule": "Choose the smallest tested MAD multiplier with zero false positives and zero false negatives across both validation records; this favors sensitivity among tied perfect validation configurations.",
+  "development_and_validation_metrics": {
+    "num_records": 3,
+    "num_reference_beats": 115,
+    "micro_true_positives": 115,
+    "micro_false_positives": 0,
+    "micro_false_negatives": 0,
+    "micro_sensitivity": 1.0,
+    "micro_positive_predictive_value": 1.0,
+    "micro_f1": 1.0,
+    "mean_absolute_heart_rate_error_bpm": 0.005673456929675543
+  },
+  "comparison_generic_baseline": {
+    "micro_f1": 0.6217008797653959,
+    "mean_absolute_heart_rate_error_bpm": 73.83808998499329
+  },
+  "frozen_test_result": {
+    "record": "207",
+    "num_reference_beats": 29,
+    "micro_true_positives": 29,
+    "micro_false_positives": 0,
+    "micro_false_negatives": 0,
+    "micro_sensitivity": 1.0,
+    "micro_positive_predictive_value": 1.0,
+    "micro_f1": 1.0,
+    "reference_mean_heart_rate_bpm": 56.84744806842749,
+    "detected_mean_heart_rate_bpm": 56.84744806842749,
+    "heart_rate_error_bpm": 0.0,
+    "result_file": "outputs/real_signal/ecg_detector_v1_frozen_test.json"
+  },
+  "test_policy": "The configuration above was frozen before record 207 was downloaded. The recorded test result must not be used to revise ecg_detector_v1; future changes require a new detector version and a new unseen test set."
+}

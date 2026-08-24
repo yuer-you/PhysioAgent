@@ -1,0 +1,44 @@
+{
+  "name": "workflow_final_cases_v2",
+  "status": "frozen-unseen",
+  "num_cases": 40,
+  "cases_file": "evaluation/workflow_final_cases_v2.jsonl",
+  "cases_sha256": "0c208903f953d6e85fc33cf82d99c9016f9b96afc140388f74151d1d16208544",
+  "model_policy": {
+    "base_model": "Qwen2.5-3B-Instruct",
+    "adapter": "outputs/sft/qwen2.5-3b-workflow-lora-v1/final_adapter",
+    "workflow_prompt_version": "v2",
+    "max_new_tokens": 128,
+    "strict_parser": true,
+    "conservative_recovery": "not used for the primary metric"
+  },
+  "training_data": {
+    "train_file": "data/sft_workflow_v1/train.jsonl",
+    "train_sha256": "b1355c025af32ab1b85b9b4cce64de0cdfa74aeaa8d689ab598f0c45e4b08aa0",
+    "validation_file": "data/sft_workflow_v1/validation.jsonl",
+    "validation_sha256": "9e53d703141456bd059fc31ca67695c5ef9edc51af1c1839e3b0b7ee35e48d29"
+  },
+  "coverage": {
+    "languages": ["Chinese", "English"],
+    "step_counts": {"1": 6, "2": 16, "3": 18},
+    "records": ["100", "101", "200", "207"],
+    "categories": {
+      "single_step": 6,
+      "filter_then_heart_rate": 4,
+      "filter_then_peaks": 4,
+      "filter_then_statistics": 4,
+      "load_then_statistics": 4,
+      "load_filter_heart_rate": 6,
+      "load_filter_peaks": 6,
+      "load_filter_statistics": 6
+    }
+  },
+  "scope": "Unseen language/planning test that reuses previously available ECG files.",
+  "policy": [
+    "The cases, labels, prompt, adapter, and decoding configuration are frozen before the first model run.",
+    "No question from workflow development, final v1, workflow SFT train, or workflow SFT validation may appear here.",
+    "Run adapter generation once and preserve every raw output.",
+    "The strict end-to-end metric is primary; recovery metrics, if computed later, must remain separate.",
+    "Do not modify this test or retrain from its failures and then report another run as v2."
+  ]
+}

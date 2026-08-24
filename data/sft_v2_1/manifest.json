@@ -1,0 +1,28 @@
+{
+  "version": "synthetic_targeted_v2_1",
+  "seed": 20260814,
+  "base_version": "synthetic_targeted_v2",
+  "base_seed": 20260813,
+  "split_sizes": {
+    "train": 760,
+    "validation": 170,
+    "test": 100
+  },
+  "targeted_additions": {
+    "train": {
+      "calculate_statistics": 30,
+      "filter_signal": 30
+    },
+    "validation": {
+      "calculate_statistics": 10,
+      "filter_signal": 10
+    }
+  },
+  "targeted_issues": [
+    "statistics_tool_name_stability",
+    "order_only_without_invented_cutoffs"
+  ],
+  "test_status": "development_test_previously_inspected",
+  "frozen_final_test": "evaluation/final_cases_v1.jsonl",
+  "final_test_used_by_generator": false
+}

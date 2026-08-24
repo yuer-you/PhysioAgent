@@ -1,0 +1,49 @@
+{
+  "name": "workflow_final_cases_v4",
+  "status": "frozen-unseen",
+  "frozen_before_dpo_training": true,
+  "num_cases": 80,
+  "cases_file": "evaluation/workflow_final_cases_v4.jsonl",
+  "cases_sha256": "3016c73fb509e88d1a670185e2e4086f7e2b8ce8c2f62330ede8d8c3c4ee087f",
+  "model_policy": {
+    "base_model": "Qwen2.5-3B-Instruct",
+    "reference_adapter": "outputs/sft/qwen2.5-3b-workflow-lora-v2/final_adapter",
+    "candidate_adapter": "outputs/dpo/qwen2.5-3b-workflow-dpo-v1/final_adapter",
+    "workflow_prompt_version": "v2",
+    "max_new_tokens": 128,
+    "strict_parser": true,
+    "conservative_recovery": "not used",
+    "paired_sft_vs_dpo_comparison": true
+  },
+  "preference_data": {
+    "train_file": "data/dpo_workflow_v1/train.jsonl",
+    "train_sha256": "b6c7cd4244943cdfeb92b5dcb7ee805f4ffab8e212754b76ba4b1f3cae59ddd2",
+    "validation_file": "data/dpo_workflow_v1/validation.jsonl",
+    "validation_sha256": "b2a12a322522ccee388e7cbc82c9a7f939ec7212fc9ef90ad81fa738f84f053e"
+  },
+  "coverage": {
+    "languages": {"zh": 40, "en": 40},
+    "step_counts": {"1": 10, "2": 28, "3": 42},
+    "load_policies": {"load_explicit": 27, "load_default": 27, "no_load": 26},
+    "records": ["100", "101", "200", "207"],
+    "categories": {
+      "single_step": 10,
+      "filter_then_heart_rate": 6,
+      "filter_then_peaks": 6,
+      "filter_then_statistics": 6,
+      "load_then_statistics": 10,
+      "load_filter_heart_rate": 14,
+      "load_filter_peaks": 14,
+      "load_filter_statistics": 14
+    }
+  },
+  "scope": "Held-out language and workflow planning test for paired Workflow LoRA v2 versus DPO v1 comparison; existing ECG records are reused.",
+  "policy": [
+    "The cases and labels are frozen before any DPO training or model generation on final v4.",
+    "The generator reads no SFT, DPO, development, or prior final dataset.",
+    "No final v4 question appears exactly in SFT data, DPO data, development cases, or final v1-v3.",
+    "Every expected plan executes successfully with deterministic tools before freezing.",
+    "Run the unchanged SFT reference adapter and DPO candidate once each with identical settings.",
+    "Do not tune from final v4 failures and report another run on this file as unseen final v4."
+  ]
+}

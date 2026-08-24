@@ -1,0 +1,53 @@
+{
+  "version": "workflow_sft_v1",
+  "seed": 20260821,
+  "system_prompt": "workflow_prompt_v2_with_ecg_profile",
+  "split_sizes": {
+    "train": 1200,
+    "validation": 200
+  },
+  "category_counts": {
+    "train": {
+      "single_step": 200,
+      "filter_then_heart_rate": 120,
+      "filter_then_peaks": 120,
+      "filter_then_statistics": 120,
+      "load_then_statistics": 120,
+      "load_filter_heart_rate": 160,
+      "load_filter_peaks": 120,
+      "load_filter_statistics": 240
+    },
+    "validation": {
+      "single_step": 40,
+      "filter_then_heart_rate": 20,
+      "filter_then_peaks": 20,
+      "filter_then_statistics": 20,
+      "load_then_statistics": 20,
+      "load_filter_heart_rate": 25,
+      "load_filter_peaks": 15,
+      "load_filter_statistics": 40
+    }
+  },
+  "step_counts": {
+    "train": {
+      "1": 200,
+      "2": 480,
+      "3": 520
+    },
+    "validation": {
+      "1": 40,
+      "2": 80,
+      "3": 80
+    }
+  },
+  "file_sha256": {
+    "train": "b1355c025af32ab1b85b9b4cce64de0cdfa74aeaa8d689ab598f0c45e4b08aa0",
+    "validation": "9e53d703141456bd059fc31ca67695c5ef9edc51af1c1839e3b0b7ee35e48d29"
+  },
+  "frozen_tests_read_by_generator": false,
+  "forbidden_training_sources": [
+    "evaluation/workflow_final_cases_v1.jsonl",
+    "evaluation/workflow_planning_cases_v1.jsonl"
+  ],
+  "test_split_created": false
+}
